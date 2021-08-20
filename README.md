@@ -2,7 +2,7 @@
  Script na teleportování hráče a auta na dané souřadnice
 
 ### Funkce:
-- Teleportace na dané souřadnice peda i s autem
+- Teleportace na dané souřadnice peda i s vozidlem
 - Možnost omezení pro danou frakci/job
 
 ### Požadavky:
