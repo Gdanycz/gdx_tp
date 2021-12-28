@@ -1,6 +1,12 @@
 fx_version 'adamant'
-games { 'gta5' }
+game 'gta5'
+
+author 'Gdany#2835'
+description 'Script to teleport player and car to given coordinates'
+version '1.0.0'
 
 client_scripts {
-	'client.lua'
+    'config.lua',
+    'lang.lua',
+	'client.lua',
 }
