@@ -1,14 +1,14 @@
 # gdx_tp
- Script na teleportování hráče a auta na dané souřadnice
+Script to teleport player and car to given coordinates
 
-### Funkce:
-- Teleportace na dané souřadnice peda i s autem
-- Možnost omezení pro danou frakci/job
+### Features:
+- Teleportation to the given coordinates of the pedestrian and the car
+- Faction/job restrictions
 
-### Požadavky:
+### Requirements:
 - es_extended
 
-### Instalace:
-- Vložte `gdx_tp` do `resources`
-- Do `server.cfg` vložte `ensure gdx_tp`
-- Nastavte souřadnice v `client.lua`
+### Installation:
+- Paste `gdx_tp` into `resources`
+- Paste `ensure gdx_tp` into `server.cfg`
+- Set the coordinates in `client.lua`

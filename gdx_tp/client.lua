@@ -1,15 +1,8 @@
-key_to_teleport = 38
-
-positions = {
-	--{{x, y, z, h}, {x, y, z, h}, "job_name"}, pro povelení všem hráčům použijte: everyone
-    {{141.24, -735.36, 262.85, 158.9}, {131.08, -762.28, 242.15, 160.23}, "fbi"},
-}
-
-ESX              = nil
-local PlayerData                = {}
+ESX = nil
+local PlayerData    = {}
 Citizen.CreateThread(function()
     while ESX == nil do
-        TriggerEvent('esx:getSharedObject', function(obj)
+        TriggerEvent(Config.GetSharedObject, function(obj)
             ESX = obj
             PlayerData = ESX.GetPlayerData()
         end)
@@ -17,27 +10,26 @@ Citizen.CreateThread(function()
     end
 end)
 
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer)
+RegisterNetEvent("esx:playerLoaded")
+AddEventHandler("esx:playerLoaded", function(xPlayer)
   PlayerData = xPlayer
 end)
+
 RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(job)
   PlayerData.job = job
 end)
 
-
 Citizen.CreateThread(function ()
     Citizen.Wait(5000)
-
     while true do
         if PlayerData.job == nil then
             PlayerData.job = ESX.GetPlayerData().job
         else
             Citizen.Wait(0)
-            local player = PlayerPedId()
-            local coords = GetEntityCoords(player)
-            for i,location in ipairs(positions) do
+            local playerPed = PlayerPedId()
+            local coords = GetEntityCoords(playerPed)
+            for i,location in ipairs(Config.Positions) do
                 if location[3] == "everyone" then
                     local distancea = GetDistanceBetweenCoords(coords, location[1][1], location[1][2], location[1][3], true)
                     local distanceb = GetDistanceBetweenCoords(coords, location[2][1], location[2][2], location[2][3], true)
@@ -46,15 +38,19 @@ Citizen.CreateThread(function ()
                         if distancea < 1.6 then
                             DrawGenericTextThisFrame()
                             SetTextEntry("STRING")
-                            AddTextComponentString("Vstoupit [~g~E~w~]")
+                            if Config.UseCustomFont then
+                                AddTextComponentString("<font face='"..Config.FontName.."'>".._U('enter_text').."</font>")
+                            else
+                                AddTextComponentString(_U('enter_text'))
+                            end
                             DrawText(0.5, 0.8)
-                            if IsControlJustReleased(0, key_to_teleport) then
-                                if IsPedInAnyVehicle(player, true) then
-                                    SetEntityCoords(GetVehiclePedIsUsing(player), location[2][1], location[2][2], location[2][3])
-                                    SetEntityHeading(GetVehiclePedIsUsing(player), location[2][4])
+                            if IsControlJustReleased(0, Config.TeleportKey) then
+                                if IsPedInAnyVehicle(playerPed, true) then
+                                    SetEntityCoords(GetVehiclePedIsUsing(playerPed), location[2][1], location[2][2], location[2][3])
+                                    SetEntityHeading(GetVehiclePedIsUsing(playerPed), location[2][4])
                                 else
-                                    SetEntityCoords(player, location[2][1], location[2][2], location[2][3])
-                                    SetEntityHeading(player, location[2][4])
+                                    SetEntityCoords(playerPed, location[2][1], location[2][2], location[2][3])
+                                    SetEntityHeading(playerPed, location[2][4])
                                 end
                             end
                         end
@@ -64,15 +60,19 @@ Citizen.CreateThread(function ()
                         if distanceb < 1.6 then
                             DrawGenericTextThisFrame()
                             SetTextEntry("STRING")
-                            AddTextComponentString("Vstoupit [~g~E~w~]")
+                            if Config.UseCustomFont then
+                                AddTextComponentString("<font face='"..Config.FontName.."'>".._U('enter_text').."</font>")
+                            else
+                                AddTextComponentString(_U('enter_text'))
+                            end
                             DrawText(0.5, 0.8)
-                            if IsControlJustReleased(0, key_to_teleport) then
-                                if IsPedInAnyVehicle(player, true) then
-                                    SetEntityCoords(GetVehiclePedIsUsing(player), location[1][1], location[1][2], location[1][3])
-                                    SetEntityHeading(GetVehiclePedIsUsing(player), location[1][4])
+                            if IsControlJustReleased(0, Config.TeleportKey) then
+                                if IsPedInAnyVehicle(playerPed, true) then
+                                    SetEntityCoords(GetVehiclePedIsUsing(playerPed), location[1][1], location[1][2], location[1][3])
+                                    SetEntityHeading(GetVehiclePedIsUsing(playerPed), location[1][4])
                                 else
-                                    SetEntityCoords(player, location[1][1], location[1][2], location[1][3])
-                                    SetEntityHeading(player, location[1][4])
+                                    SetEntityCoords(playerPed, location[1][1], location[1][2], location[1][3])
+                                    SetEntityHeading(playerPed, location[1][4])
                                 end
                             end
                         end
@@ -86,15 +86,19 @@ Citizen.CreateThread(function ()
                             if distancea < 1.6 then
                                 DrawGenericTextThisFrame()
                                 SetTextEntry("STRING")
-                                AddTextComponentString("Vstoupit [~g~E~w~]")
+                                if Config.UseCustomFont then
+                                    AddTextComponentString("<font face='"..Config.FontName.."'>".._U('enter_text').."</font>")
+                                else
+                                    AddTextComponentString(_U('enter_text'))
+                                end
                                 DrawText(0.5, 0.8)
-                                if IsControlJustReleased(0, key_to_teleport) then
-                                    if IsPedInAnyVehicle(player, true) then
-                                        SetEntityCoords(GetVehiclePedIsUsing(player), location[2][1], location[2][2], location[2][3])
-                                        SetEntityHeading(GetVehiclePedIsUsing(player), location[2][4])
+                                if IsControlJustReleased(0, Config.TeleportKey) then
+                                    if IsPedInAnyVehicle(playerPed, true) then
+                                        SetEntityCoords(GetVehiclePedIsUsing(playerPed), location[2][1], location[2][2], location[2][3])
+                                        SetEntityHeading(GetVehiclePedIsUsing(playerPed), location[2][4])
                                     else
-                                        SetEntityCoords(player, location[2][1], location[2][2], location[2][3])
-                                        SetEntityHeading(player, location[2][4])
+                                        SetEntityCoords(playerPed, location[2][1], location[2][2], location[2][3])
+                                        SetEntityHeading(playerPed, location[2][4])
                                     end
                                 end
                             end
@@ -104,15 +108,19 @@ Citizen.CreateThread(function ()
                             if distanceb < 1.6 then
                                 DrawGenericTextThisFrame()
                                 SetTextEntry("STRING")
-                                AddTextComponentString("Vstoupit [~g~E~w~]")
+                                if Config.UseCustomFont then
+                                    AddTextComponentString("<font face='"..Config.FontName.."'>".._U('enter_text').."</font>")
+                                else
+                                    AddTextComponentString(_U('enter_text'))
+                                end
                                 DrawText(0.5, 0.8)
-                                if IsControlJustReleased(0, key_to_teleport) then
-                                    if IsPedInAnyVehicle(player, true) then
-                                        SetEntityCoords(GetVehiclePedIsUsing(player), location[1][1], location[1][2], location[1][3])
-                                        SetEntityHeading(GetVehiclePedIsUsing(player), location[1][4])
+                                if IsControlJustReleased(0, Config.TeleportKey) then
+                                    if IsPedInAnyVehicle(playerPed, true) then
+                                        SetEntityCoords(GetVehiclePedIsUsing(playerPed), location[1][1], location[1][2], location[1][3])
+                                        SetEntityHeading(GetVehiclePedIsUsing(playerPed), location[1][4])
                                     else
-                                        SetEntityCoords(player, location[1][1], location[1][2], location[1][3])
-                                        SetEntityHeading(player, location[1][4])
+                                        SetEntityCoords(playerPed, location[1][1], location[1][2], location[1][3])
+                                        SetEntityHeading(playerPed, location[1][4])
                                     end
                                 end
                             end
@@ -135,7 +143,7 @@ function CheckPos(x, y, z, cx, cy, cz, radius)
 end
 
 DrawGenericTextThisFrame = function()
-    SetTextFont(13)
+    SetTextFont(Config.FontId or 4)
     SetTextProportional(0)
     SetTextScale(0.0, 0.4)
     SetTextColour(255, 255, 255, 255)
